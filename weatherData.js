@@ -71,7 +71,8 @@ function searchWeatherData(prefecture, rl) {
 
     console.log('最も多い天候:', mostCommonWeather);
 
-    if (mostCommonWeather === '雨') {
+    const totalCount = Object.values(weatherCounts).reduce((a, b) => a + b, 0);
+    if (mostCommonWeather === '雨' && weatherCounts['雨'] / totalCount > 1 / 3) {
       if (weatherCounts['雨'] > 10) {
         console.log('雨の確率が高いです');
       } else {
@@ -79,7 +80,7 @@ function searchWeatherData(prefecture, rl) {
       }
     }
 
-    if (weatherCounts['雪'] >= 3) {
+    if (weatherCounts['雪'] >= 1) {
       console.log('雪が降った年があります');
     }
 
