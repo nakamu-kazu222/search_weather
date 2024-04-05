@@ -1,13 +1,15 @@
 {
-  "name": "search_weather",
+  "name": "search-weather",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fetch and display weather data from CSV files.",
   "main": "index.js",
+  "bin": {
+    "search-weather": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["weather", "CSV", "data"],
+  "license": "MIT",
   "files": ["csv"]
 }
