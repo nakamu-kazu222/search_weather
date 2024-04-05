@@ -1,10 +1,10 @@
-const fs = require("fs");
-const iconv = require("iconv-lite");
-const path = require("path");
+import fs from "fs";
+import iconv from "iconv-lite";
+import path from "path";
 
 const csvDirectoryPath = "csv/";
 
-function searchWeatherData(prefecture, rl) {
+export function searchWeatherData(prefecture, rl) {
   const csvFiles = fs.readdirSync(csvDirectoryPath);
 
   const csvFilePath = csvFiles.find((file) => {
@@ -93,7 +93,3 @@ function searchWeatherData(prefecture, rl) {
     rl.close();
   });
 }
-
-module.exports = {
-  searchWeatherData,
-};
