@@ -7,9 +7,22 @@
     "search-weather": "./index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fix": "prettier --write . && eslint --fix .",
+    "lint": "prettier --check . && eslint ."
   },
-  "keywords": ["weather", "CSV", "data"],
+  "keywords": [
+    "weather",
+    "CSV",
+    "data"
+  ],
   "license": "MIT",
-  "files": ["csv"]
+  "files": [
+    "csv"
+  ],
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5"
+  }
 }
