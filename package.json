@@ -1,6 +1,6 @@
 {
   "name": "search-weather-japan",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "description": "Fetch and display weather data from CSV files.",
   "main": "index.js",
   "bin": {
@@ -11,18 +11,24 @@
     "fix": "prettier --write . && eslint --fix .",
     "lint": "prettier --check . && eslint ."
   },
+  "type": "module",
+  "author": "nakamu-kazu222",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakamu-kazu222/search_weather.git"
+  },
   "keywords": [
     "weather",
     "CSV",
     "data"
   ],
   "license": "MIT",
-  "files": [
-    "csv"
-  ],
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3"
   }
 }
