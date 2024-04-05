@@ -1,5 +1,3 @@
-# Search-Weather-Japan
-
 ## 概要
 
 日本の過去の天気をターミナル上で表示するnpmです
