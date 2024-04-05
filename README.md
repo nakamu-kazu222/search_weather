@@ -4,6 +4,7 @@
 日本の過去の天気をターミナル上で表示するnpmです
 
 ## インストール方法
+`$ npm install iconv-lite`
 `$ npm install search-weather-japan`
 
 ## 使い方
@@ -40,15 +41,9 @@
       - 右ボタンのCSVファイルをダウンロード
 
     - CSVの配置する場所
-      - Linux、macOS
-        - /usr/local/lib/node_modules/search-weather-japan/csv
-          - csvディレクトリ内に配置してください
-            - もし、csvディレクトリがない場合は作成してください
-
-      - Windows
-        - C:\Users\{ユーザー名}\AppData\Roaming\npm\node_modules\search-weather-japan\csv
-          - csvディレクトリ内に配置してください
-            - もし、csvディレクトリがない場合は作成してください
+      - /現在のディレクトリ/csv/csvファイル
+        - npmを実行するディレクトリのcsvディレクトリ内に配置してください
+          - もし、csvディレクトリがない場合は作成してください
 
   - npm実行
     - `% npx search-weather-japan`
