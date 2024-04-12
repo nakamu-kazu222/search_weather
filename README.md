@@ -4,7 +4,6 @@
 
 ## インストール方法
 
-`$ npm install iconv-lite`
 `$ npm install search-weather-japan`
 
 ## 使い方
