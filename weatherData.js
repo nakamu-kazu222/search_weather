@@ -4,6 +4,28 @@ import path from "path";
 
 const csvDirectoryPath = "csv/";
 
+export function getAvailablePrefectures(prefectures) {
+  const csvFiles = fs.readdirSync(csvDirectoryPath);
+  const availablePrefectures = new Set();
+
+  csvFiles.forEach((file) => {
+    const csvData = fs.readFileSync(path.join(csvDirectoryPath, file));
+    const utf8Data = iconv.decode(csvData, "Shift_JIS");
+    const csvArray = utf8Data.split(/\r?\n/).map((line) => line.split(","));
+    for (let i = 0; i < 4; i++) {
+      csvArray[i].forEach((element) => {
+        prefectures.forEach((prefecture) => {
+          if (element.includes(prefecture.replace("県", "").replace("府", "").replace("都", ""))) {
+            availablePrefectures.add(prefecture);
+          }
+        });
+      });
+    }
+  });
+
+  return Array.from(availablePrefectures);
+}
+
 export function searchWeatherData(prefecture, rl) {
   const csvFiles = fs.readdirSync(csvDirectoryPath);
 
@@ -12,7 +34,7 @@ export function searchWeatherData(prefecture, rl) {
     const utf8Data = iconv.decode(csvData, "Shift_JIS");
     const csvArray = utf8Data.split(/\r?\n/).map((line) => line.split(","));
     for (let i = 0; i < 4; i++) {
-      if (csvArray[i].some((element) => element.includes(prefecture))) {
+      if (csvArray[i].some((element) => element.includes(prefecture.replace("県", "").replace("府", "").replace("都", "")))) {
         return true;
       }
     }
