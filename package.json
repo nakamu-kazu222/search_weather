@@ -1,6 +1,6 @@
 {
   "name": "search-weather-japan",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Fetch and display weather data from CSV files.",
   "main": "index.js",
   "bin": {
