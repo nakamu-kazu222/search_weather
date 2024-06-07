@@ -63,7 +63,20 @@ export function searchWeatherData(prefecture, rl) {
 
   const csvArray = readCSVFile(csvFilePath);
 
-  rl.question("検索する日付を入力してください（例: 1/1）: ", (searchDate) => {
+  rl.question("検索する日付を入力してください（例: 1/1）\n入力しない場合は今日の日付になります: ", (searchDate) => {
+    if (!searchDate) {
+      const today = new Date();
+      const month = today.getMonth() + 1;
+      const day = today.getDate();
+      searchDate = `${month}/${day}`;
+    }
+
+    if (!searchDate.match(/^\d{1,2}\/\d{1,2}$/)) {
+      console.log("日付の形式が正しくありません。再度入力してください。");
+      searchWeatherData(prefecture, rl);
+      return;
+    }
+
     const matchingRows = csvArray.filter((row) => {
       const dateParts = row[0].split("/");
       return (
