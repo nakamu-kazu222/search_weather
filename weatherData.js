@@ -5,7 +5,17 @@ import path from "path";
 const csvDirectoryPath = "csv/";
 
 export function getAvailablePrefectures(prefectures) {
+  if (!fs.existsSync(csvDirectoryPath)) {
+    console.log("CSVディレクトリが存在しません。CSVディレクトリを配置してください。");
+    process.exit(1);
+  }
+
   const csvFiles = fs.readdirSync(csvDirectoryPath);
+  if (csvFiles.length === 0) {
+    console.log("CSVファイルが見つかりません。CSVファイルを配置してください。");
+    process.exit(1);
+  }
+
   const availablePrefectures = new Set();
 
   csvFiles.forEach((file) => {

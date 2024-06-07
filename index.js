@@ -22,7 +22,7 @@ function promptForPrefecture() {
   const availablePrefectures = getAvailablePrefectures(prefectures);
 
   if (availablePrefectures.length === 0) {
-    console.log("利用可能な都道府県のcsvが見つかりませんでした。");
+    console.log("都道府県が記載されているCSVファイルが見つかりませんでした。");
     rl.close();
     return;
   }
