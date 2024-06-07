@@ -42,10 +42,9 @@ export function getAvailablePrefectures(prefectures) {
   return Array.from(availablePrefectures);
 }
 
-export function searchWeatherData(prefecture, rl) {
+function findCSVFilePath(prefecture) {
   const csvFiles = fs.readdirSync(csvDirectoryPath);
-
-  const csvFilePath = csvFiles.find((file) => {
+  return csvFiles.find((file) => {
     const csvArray = readCSVFile(file);
     for (let i = 0; i < 4; i++) {
       if (csvArray[i] && csvArray[i].some((element) => element.includes(prefecture.replace("県", "").replace("府", "").replace("都", "")))) {
@@ -54,6 +53,66 @@ export function searchWeatherData(prefecture, rl) {
     }
     return false;
   });
+}
+
+function getWeatherCounts(csvArray, searchDate) {
+  const matchingRows = csvArray.filter((row) => {
+    const dateParts = row[0].split("/");
+    return (
+      dateParts[1] === searchDate.split("/")[0] &&
+      dateParts[2] === searchDate.split("/")[1]
+    );
+  });
+
+  const weatherCounts = {
+    晴: 0,
+    雨: 0,
+    曇: 0,
+    雪: 0,
+  };
+
+  for (const row of matchingRows) {
+    for (let i = 1; i < row.length; i++) {
+      if (row[i].includes("晴")) {
+        weatherCounts["晴"]++;
+      }
+      if (row[i].includes("雨")) {
+        weatherCounts["雨"]++;
+      }
+      if (row[i].includes("曇")) {
+        weatherCounts["曇"]++;
+      }
+      if (row[i].includes("雪")) {
+        weatherCounts["雪"]++;
+      }
+    }
+  }
+
+  return weatherCounts;
+}
+
+function displayWeatherResult(mostCommonWeather, weatherCounts) {
+  console.log("最も多い天候:", mostCommonWeather);
+
+  const totalCount = Object.values(weatherCounts).reduce((a, b) => a + b, 0);
+  if (
+    mostCommonWeather === "雨" &&
+    weatherCounts["雨"] / totalCount > 1 / 3
+  ) {
+    if (weatherCounts["雨"] > 10) {
+      console.log("雨の確率が高いです");
+    } else {
+      console.log("傘を持ってください");
+    }
+  }
+
+  if (weatherCounts["雪"] >= 1) {
+    console.log("雪が降った年があります");
+  }
+}
+
+export function searchWeatherData(prefecture, rl) {
+  const csvFilePath = findCSVFilePath(prefecture);
 
   if (!csvFilePath) {
     console.log("指定された都道府県のデータが見つかりませんでした。");
@@ -77,37 +136,7 @@ export function searchWeatherData(prefecture, rl) {
       return;
     }
 
-    const matchingRows = csvArray.filter((row) => {
-      const dateParts = row[0].split("/");
-      return (
-        dateParts[1] === searchDate.split("/")[0] &&
-        dateParts[2] === searchDate.split("/")[1]
-      );
-    });
-
-    const weatherCounts = {
-      晴: 0,
-      雨: 0,
-      曇: 0,
-      雪: 0,
-    };
-
-    for (const row of matchingRows) {
-      for (let i = 1; i < row.length; i++) {
-        if (row[i].includes("晴")) {
-          weatherCounts["晴"]++;
-        }
-        if (row[i].includes("雨")) {
-          weatherCounts["雨"]++;
-        }
-        if (row[i].includes("曇")) {
-          weatherCounts["曇"]++;
-        }
-        if (row[i].includes("雪")) {
-          weatherCounts["雪"]++;
-        }
-      }
-    }
+    const weatherCounts = getWeatherCounts(csvArray, searchDate);
 
     let mostCommonWeather = "";
     let highestCount = 0;
@@ -119,23 +148,7 @@ export function searchWeatherData(prefecture, rl) {
       }
     }
 
-    console.log("最も多い天候:", mostCommonWeather);
-
-    const totalCount = Object.values(weatherCounts).reduce((a, b) => a + b, 0);
-    if (
-      mostCommonWeather === "雨" &&
-      weatherCounts["雨"] / totalCount > 1 / 3
-    ) {
-      if (weatherCounts["雨"] > 10) {
-        console.log("雨の確率が高いです");
-      } else {
-        console.log("傘を持ってください");
-      }
-    }
-
-    if (weatherCounts["雪"] >= 1) {
-      console.log("雪が降った年があります");
-    }
+    displayWeatherResult(mostCommonWeather, weatherCounts);
 
     rl.close();
   });
